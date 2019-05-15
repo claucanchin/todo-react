@@ -1,13 +1,32 @@
 class List extends React.Component {
-    render() {
-        console.log("list propssss:",this.props.data);
+    constructor() {
+        super()
+        this.removeHandler = this.removeHandler.bind(this);
+    }
 
-        let list = this.props.data.map((todo, index) => {
-            return <li key={ index }>{ todo }</li>
+    removeHandler(event) {
+        // console.log(event.target.value)
+        let index = event.target.value
+        // let item = this.props.data[index]
+        // console.log(item)
+        this.props.data.splice(index, 1)
+        this.setState({list: this.props.data})
+    }
+
+    render() {
+        // console.log("list propssss:",this.props.data);
+
+        let tasks = this.props.data.map((todo, index) => {
+            return (
+                <li key={ index + todo }>
+                    { todo }
+                    <button value={index} onClick={this.removeHandler}>Delete</button>
+                </li>
+                )
         });
         return (
             <ol>
-                {list}
+                {tasks}
             </ol>
         );
     }
@@ -15,51 +34,53 @@ class List extends React.Component {
 
 
 class App extends React.Component {
-  constructor(){
-    super()
-    this.changeHandler = this.changeHandler.bind( this );
-    this.clickHandler = this.clickHandler.bind( this );
-  }
+    constructor() {
+        super()
+        this.changeHandler = this.changeHandler.bind(this);
+        this.clickHandler = this.clickHandler.bind(this);
+    }
 
-  state = {
-    list : [],
-    word : ""
-  }
+    state = {
+        list: [],
+        word: ""
+    }
 
-  changeHandler(event){
-    this.setState({word:event.target.value});
-    // console.log("change", event.target.value);
-  }
+    changeHandler(event) {
+        this.setState({ word: event.target.value });
+        // console.log("change", event.target.value);
+    }
 
-  clickHandler(event){
-    let inputText = this.state.word;
-    this.state.list.push(inputText);
-    this.setState({
-        list : this.state.list,
-        word : ""
-    })
-  }
+    clickHandler(event) {
+        let newWord = this.state.word;
+        let newList = this.state.list;
+        if (newWord.length > 1) {
+            newList.push(newWord);
+            this.setState({
+                list: newList,
+                word: ""
+            })
+        } else {
+            alert("Error: 'Task' must be more than 1 character!");
+            this.setState({ word: "" })
+        }
+    }
 
-  render() {
-      // render the list with a map() here
-      // return this.state.list.map((todo, index) => {
+    render() {
 
-      // })
+        // console.log("rendering");
+        return (
+            <div>
+                <h1>To-Do List</h1>
+                <input onChange={ this.changeHandler } value={this.state.word} placeholder="order pizza"/>
+                <button onClick={ this.clickHandler }>add task</button>
 
-      console.log("rendering");
-      return (
-        <div className="list">
-          <input onChange={ this.changeHandler } value={this.state.word}/>
-          <button onClick={ this.clickHandler }>add item</button>
-            <List data = { this.state.list } />
-        </div>
-      );
-  }
+                <List data = { this.state.list } />
+            </div>
+        );
+    }
 }
 
 ReactDOM.render(
-    <App
-
-    />,
+    <App/>,
     document.getElementById('root')
 );
