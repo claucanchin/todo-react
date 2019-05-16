@@ -63,7 +63,7 @@ class App extends React.Component {
         // console.log("rendering");
         return (
             <div>
-                <h1>To-Do App</h1>
+                <h1>to.do.app</h1>
                 <input onChange={ this.changeHandler } value={this.state.word} placeholder="order pizza"/>
                 <button onClick={ this.submitHandler }>+ Task</button>
                 <h2>To-Do List</h2>
@@ -109,10 +109,6 @@ class App extends React.Component {
 // ****************************************************
 
 class List extends React.Component {
-    constructor() {
-        super()
-    }
-
     render() {
         // console.log("list propssss:",this.props.data);
         let tasks = this.props.data.map((todo, index) => {
@@ -121,7 +117,10 @@ class List extends React.Component {
                         <td>{index + 1}</td>
                         <td>{todo.text}</td>
                         <td>{moment(todo.timestamp).format('D MMMM YYYY, h:mm:ss a')}</td>
-                        <td><button value={index} onClick={this.props.removeHandler}>Remove</button></td>
+                        <td>
+                            <button value={index} onClick={this.props.removeHandler}>Remove</button>
+                            <button value={index} onClick={this.props.editHandler}>Edit</button>
+                        </td>
                     </tr>
         });
 
@@ -151,6 +150,20 @@ class DeleteList extends React.Component {
             <React.Fragment>
                 {deletedItems}
             </React.Fragment>
+        );
+    }
+}
+
+// ****************************************************
+// ******************** EDIT LIST *********************
+// ****************************************************
+
+class EditHandler extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1></h1>
+            </div>
         );
     }
 }
