@@ -1,37 +1,6 @@
-class List extends React.Component {
-    constructor() {
-        super()
-        this.removeHandler = this.removeHandler.bind(this);
-    }
-
-    removeHandler(event) {
-        // console.log(event.target.value)
-        let index = event.target.value
-        // let item = this.props.data[index]
-        // console.log(item)
-        this.props.data.splice(index, 1)
-        this.setState({list: this.props.data})
-    }
-
-    render() {
-        // console.log("list propssss:",this.props.data);
-        let tasks = this.props.data.map((todo, index) => {
-
-            return  <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{todo.text}</td>
-                        <td>{moment(todo.timestamp).format('D MMMM YYYY, h:mm:ss a')}</td>
-                        <td><button value={index} onClick={this.removeHandler}>Delete</button></td>
-                    </tr>
-        });
-        return (
-            <React.Fragment>
-                {tasks}
-            </React.Fragment>
-        );
-    }
-}
-
+// ****************************************************
+// ********************** APP *************************
+// ****************************************************
 
 class App extends React.Component {
     constructor() {
@@ -55,7 +24,10 @@ class App extends React.Component {
         let newList = this.state.list;
 
         if (newWord.length > 1) {
-            newList.push({text: newWord, timestamp: Date.now()});
+            newList.push({
+                text: newWord,
+                timestamp: Date.now()
+            });
             this.setState({
                 list: newList,
                 word: ""
@@ -91,6 +63,49 @@ class App extends React.Component {
         );
     }
 }
+
+// ****************************************************
+// ********************* LIST *************************
+// ****************************************************
+
+class List extends React.Component {
+    constructor() {
+        super()
+        this.removeHandler = this.removeHandler.bind(this);
+    }
+
+    removeHandler(event) {
+        // console.log(event.target.value)
+        let index = event.target.value
+        // let item = this.props.data[index]
+        // console.log(item)
+        this.props.data.splice(index, 1)
+        this.setState({list: this.props.data})
+    }
+
+    render() {
+        // console.log("list propssss:",this.props.data);
+        let tasks = this.props.data.map((todo, index) => {
+
+            return  <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{todo.text}</td>
+                        <td>{moment(todo.timestamp).format('D MMMM YYYY, h:mm:ss a')}</td>
+                        <td><button value={index} onClick={this.removeHandler}>Remove</button></td>
+                    </tr>
+        });
+
+        return (
+            <React.Fragment>
+                {tasks}
+            </React.Fragment>
+        );
+    }
+}
+
+// ****************************************************
+// ****************************************************
+// ****************************************************
 
 ReactDOM.render(
     <App/>,
