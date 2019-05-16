@@ -63,9 +63,10 @@ class App extends React.Component {
         // console.log("rendering");
         return (
             <div>
-                <h1>To-Do List</h1>
+                <h1>To-Do App</h1>
                 <input onChange={ this.changeHandler } value={this.state.word} placeholder="order pizza"/>
-                <button onClick={ this.submitHandler }>add task</button>
+                <button onClick={ this.submitHandler }>+ Task</button>
+                <h2>To-Do List</h2>
                 <h4>Current to-do: {this.state.list.length}</h4>
                 <table>
                     <thead>
@@ -83,7 +84,7 @@ class App extends React.Component {
                         />
                     </tbody>
                 </table>
-                <h1>Deleted Tasks</h1>
+                <h2>Deleted Tasks</h2>
                 <table>
                     <thead>
                         <tr>
@@ -133,7 +134,7 @@ class List extends React.Component {
 }
 
 // ****************************************************
-// ******************* DELETED ************************
+// ****************** DELETE LIST *********************
 // ****************************************************
 
 class DeleteList extends React.Component {
