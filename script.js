@@ -7,11 +7,23 @@ class App extends React.Component {
         super()
         this.changeHandler = this.changeHandler.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
+        this.removeHandler = this.removeHandler.bind(this);
     }
 
     state = {
         list: [],
         word: ""
+    }
+
+    removeHandler(event) {
+        // console.log(event.target.value)
+        let index = event.target.value
+        let newList = this.state.list
+        // console.log(newList[index])
+        newList.splice(index, 1)
+        this.setState({
+            list: newList
+        });
     }
 
     changeHandler(event) {
@@ -56,7 +68,10 @@ class App extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <List data = { this.state.list } />
+                        <List
+                        data={this.state.list}
+                        removeHandler={(e) => {this.removeHandler(e)}}
+                        />
                     </tbody>
                 </table>
             </div>
@@ -71,16 +86,6 @@ class App extends React.Component {
 class List extends React.Component {
     constructor() {
         super()
-        this.removeHandler = this.removeHandler.bind(this);
-    }
-
-    removeHandler(event) {
-        // console.log(event.target.value)
-        let index = event.target.value
-        // let item = this.props.data[index]
-        // console.log(item)
-        this.props.data.splice(index, 1)
-        this.setState({list: this.props.data})
     }
 
     render() {
@@ -91,7 +96,7 @@ class List extends React.Component {
                         <td>{index + 1}</td>
                         <td>{todo.text}</td>
                         <td>{moment(todo.timestamp).format('D MMMM YYYY, h:mm:ss a')}</td>
-                        <td><button value={index} onClick={this.removeHandler}>Remove</button></td>
+                        <td><button value={index} onClick={this.props.removeHandler}>Remove</button></td>
                     </tr>
         });
 
