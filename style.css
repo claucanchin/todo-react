@@ -8,3 +8,9 @@ table, th, td {
   border: 1px solid black;
   padding: 20px 5px;
 }
+
+h4 {
+	text-align: right;
+	width: 90%;
+	margin: 20px;
+}

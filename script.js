@@ -12,17 +12,25 @@ class App extends React.Component {
 
     state = {
         list: [],
-        word: ""
+        word: "",
+        deleted: []
     }
 
     removeHandler(event) {
         // console.log(event.target.value)
         let index = event.target.value
         let newList = this.state.list
-        // console.log(newList[index])
+        let newDeletedList = this.state.deleted
+        // console.log('deleted item',newList[index])
+        //add deleted item to delete list
+        newDeletedList.push(newList[index])
+        console.log('deleted stuff:', newDeletedList)
+
+        //remove item from to-do list
         newList.splice(index, 1)
         this.setState({
-            list: newList
+            list: newList,
+            deleted: newDeletedList
         });
     }
 
@@ -58,6 +66,7 @@ class App extends React.Component {
                 <h1>To-Do List</h1>
                 <input onChange={ this.changeHandler } value={this.state.word} placeholder="order pizza"/>
                 <button onClick={ this.submitHandler }>add task</button>
+                <h4>Current to-do: {this.state.list.length}</h4>
                 <table>
                     <thead>
                         <tr>
@@ -71,6 +80,21 @@ class App extends React.Component {
                         <List
                         data={this.state.list}
                         removeHandler={(e) => {this.removeHandler(e)}}
+                        />
+                    </tbody>
+                </table>
+                <h1>Deleted Tasks</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Task</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <DeleteList
+                        trash={this.state.deleted}
                         />
                     </tbody>
                 </table>
@@ -103,6 +127,28 @@ class List extends React.Component {
         return (
             <React.Fragment>
                 {tasks}
+            </React.Fragment>
+        );
+    }
+}
+
+// ****************************************************
+// ******************* DELETED ************************
+// ****************************************************
+
+class DeleteList extends React.Component {
+    render() {
+        let deletedItems = this.props.trash.map((item, index) => {
+
+            return  <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.text}</td>
+                        <td>{moment(item.timestamp).format('D MMMM YYYY, h:mm:ss a')}</td>
+                    </tr>
+        });
+        return (
+            <React.Fragment>
+                {deletedItems}
             </React.Fragment>
         );
     }
